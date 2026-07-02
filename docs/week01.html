@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-TW" xml:lang="zh-TW"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>第1週：R 環境建置與資料匯入 – 進階應用統計學</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-458d778db5c7978e4ee89b09fbd65a51.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "沒有結果",
+    "search-matching-documents-text": "符合的文件",
+    "search-copy-link-title": "複製搜尋連結",
+    "search-hide-matches-text": "隱藏其他符合的結果",
+    "search-more-match-text": "更多符合結果",
+    "search-more-matches-text": "更多符合結果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "送出",
+    "search-label": "搜尋"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">進階應用統計學</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="搜尋"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="切換導航列" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">首頁</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">課程主題</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-">    
+        <li>
+    <a class="dropdown-item" href="./week01.html">
+ <span class="dropdown-text">主題1　R 環境建置</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week02.html">
+ <span class="dropdown-text">主題2　描述統計</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week03.html">
+ <span class="dropdown-text">主題3　資料視覺化</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week04.html">
+ <span class="dropdown-text">主題4　機率分布</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week05.html">
+ <span class="dropdown-text">主題5　相關分析</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week06.html">
+ <span class="dropdown-text">主題6　t 檢定</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week07.html">
+ <span class="dropdown-text">主題7　ANOVA</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week08.html">
+ <span class="dropdown-text">主題8　無母數檢定</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week09.html">
+ <span class="dropdown-text">主題9　線性回歸</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week10.html">
+ <span class="dropdown-text">主題10　羅吉斯回歸</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week11.html">
+ <span class="dropdown-text">主題11　干擾與中介</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week12.html">
+ <span class="dropdown-text">主題12　重複測量與 GEE</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week13.html">
+ <span class="dropdown-text">主題13　MANOVA</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week14.html">
+ <span class="dropdown-text">主題14　SEM</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week15.html">
+ <span class="dropdown-text">主題15　期末複習</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu--1" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">進階主題</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu--1">    
+        <li>
+    <a class="dropdown-item" href="./advanced01.html">
+ <span class="dropdown-text">進階1　存活分析</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./advanced02.html">
+ <span class="dropdown-text">進階2　貝氏推論</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./advanced03.html">
+ <span class="dropdown-text">進階3　空間回歸分析</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://drjackchang.github.io/advstat-en/"> 
+<span class="menu-text">🌐 English</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:yutung@ntunhs.edu.tw"> <i class="bi bi-envelope" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">本頁目錄</h2>
+   
+  <ul>
+  <li><a href="#本週學習目標" id="toc-本週學習目標" class="nav-link active" data-scroll-target="#本週學習目標">本週學習目標</a></li>
+  <li><a href="#安裝-r-與-rstudio" id="toc-安裝-r-與-rstudio" class="nav-link" data-scroll-target="#安裝-r-與-rstudio">1. 安裝 R 與 RStudio</a>
+  <ul class="collapse">
+  <li><a href="#安裝-r" id="toc-安裝-r" class="nav-link" data-scroll-target="#安裝-r">安裝 R</a></li>
+  <li><a href="#安裝-rstudio" id="toc-安裝-rstudio" class="nav-link" data-scroll-target="#安裝-rstudio">安裝 RStudio</a></li>
+  </ul></li>
+  <li><a href="#認識-rstudio-介面" id="toc-認識-rstudio-介面" class="nav-link" data-scroll-target="#認識-rstudio-介面">2. 認識 RStudio 介面</a></li>
+  <li><a href="#第一個-r-指令" id="toc-第一個-r-指令" class="nav-link" data-scroll-target="#第一個-r-指令">3. 第一個 R 指令</a></li>
+  <li><a href="#安裝與載入套件" id="toc-安裝與載入套件" class="nav-link" data-scroll-target="#安裝與載入套件">4. 安裝與載入套件</a></li>
+  <li><a href="#資料類型" id="toc-資料類型" class="nav-link" data-scroll-target="#資料類型">5. 資料類型</a></li>
+  <li><a href="#匯入主資料集" id="toc-匯入主資料集" class="nav-link" data-scroll-target="#匯入主資料集">6. 匯入主資料集</a>
+  <ul class="collapse">
+  <li><a href="#步驟" id="toc-步驟" class="nav-link" data-scroll-target="#步驟">步驟</a></li>
+  <li><a href="#將類別變項轉為-factor" id="toc-將類別變項轉為-factor" class="nav-link" data-scroll-target="#將類別變項轉為-factor">將類別變項轉為 factor</a></li>
+  </ul></li>
+  <li><a href="#資料集欄位說明" id="toc-資料集欄位說明" class="nav-link" data-scroll-target="#資料集欄位說明">7. 資料集欄位說明</a></li>
+  <li><a href="#本週小作業" id="toc-本週小作業" class="nav-link" data-scroll-target="#本週小作業">本週小作業</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">第1週：R 環境建置與資料匯入</h1>
+<p class="subtitle lead">安裝、介面認識、基本操作、匯入 ems_main.csv</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="本週學習目標" class="level2">
+<h2 class="anchored" data-anchor-id="本週學習目標">本週學習目標</h2>
+<p>完成本週後，你應該能夠：</p>
+<ol type="1">
+<li>完成 R 與 RStudio 的安裝</li>
+<li>認識 RStudio 四個面板的功能</li>
+<li>執行基本的 R 語法</li>
+<li>將 <code>ems_main.csv</code> 匯入 R 並檢視資料結構</li>
+</ol>
+<hr>
+</section>
+<section id="安裝-r-與-rstudio" class="level2">
+<h2 class="anchored" data-anchor-id="安裝-r-與-rstudio">1. 安裝 R 與 RStudio</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+重要
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>安裝順序很重要：先裝 R，再裝 RStudio。</strong> RStudio 是操作介面，R 才是真正的引擎。</p>
+</div>
+</div>
+<section id="安裝-r" class="level3">
+<h3 class="anchored" data-anchor-id="安裝-r">安裝 R</h3>
+<ol type="1">
+<li>前往 <a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a></li>
+<li>點選你的作業系統（Windows / macOS）</li>
+<li>下載最新版本（目前 R 4.4.x）並安裝，全部選預設即可</li>
+</ol>
+</section>
+<section id="安裝-rstudio" class="level3">
+<h3 class="anchored" data-anchor-id="安裝-rstudio">安裝 RStudio</h3>
+<ol type="1">
+<li>前往 <a href="https://posit.co/download/rstudio-desktop/" class="uri">https://posit.co/download/rstudio-desktop/</a></li>
+<li>下載免費版 RStudio Desktop</li>
+<li>安裝，全部選預設即可</li>
+</ol>
+<p>安裝完成後，<strong>只需要開啟 RStudio</strong>，不需要另外開 R。</p>
+<hr>
+</section>
+</section>
+<section id="認識-rstudio-介面" class="level2">
+<h2 class="anchored" data-anchor-id="認識-rstudio-介面">2. 認識 RStudio 介面</h2>
+<p>RStudio 開啟後你會看到四個面板：</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>面板位置</th>
+<th>名稱</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>左上</td>
+<td><strong>Script 編輯器</strong></td>
+<td>寫程式碼的地方，可以存檔</td>
+</tr>
+<tr class="even">
+<td>左下</td>
+<td><strong>Console</strong></td>
+<td>直接執行指令、看輸出結果</td>
+</tr>
+<tr class="odd">
+<td>右上</td>
+<td><strong>Environment</strong></td>
+<td>顯示目前載入的物件與資料</td>
+</tr>
+<tr class="even">
+<td>右下</td>
+<td><strong>Files / Plots</strong></td>
+<td>檔案管理、圖表輸出</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+提示
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>建議習慣：</strong> 程式碼寫在 Script 編輯器（左上），不要直接在 Console 打。 這樣你的分析過程可以存檔、重現、修改。</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="第一個-r-指令" class="level2">
+<h2 class="anchored" data-anchor-id="第一個-r-指令">3. 第一個 R 指令</h2>
+<p>在 Script 編輯器貼上以下程式碼，選取後按 <code>Ctrl + Enter</code>（Mac 用 <code>Cmd + Enter</code>）執行：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 這是註解，R 不會執行 # 後面的文字</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 指定一個變數</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>x <span class="sc">*</span> y</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>x <span class="sc">/</span> y</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 文字</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>name <span class="ot">&lt;-</span> <span class="st">"EMS統計課"</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(name)</span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+註釋
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>&lt;-</code> 是 R 的賦值符號，意思是「把右邊的值存入左邊的變數」。 也可以用 <code>=</code>，但 R 慣例用 <code>&lt;-</code>。 快捷鍵：<code>Alt + -</code>（Mac 用 <code>Option + -</code>）</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="安裝與載入套件" class="level2">
+<h2 class="anchored" data-anchor-id="安裝與載入套件">4. 安裝與載入套件</h2>
+<p>R 的強大來自套件（packages）。本課程主要用到以下套件，<strong>第一次使用前需要安裝</strong>：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 安裝套件（每台電腦只需要做一次）</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)   <span class="co"># 資料整理與視覺化</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)     <span class="co"># 圖表（已包含在 tidyverse）</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"dplyr"</span>)       <span class="co"># 資料操作（已包含在 tidyverse）</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"car"</span>)         <span class="co"># Levene's test 等</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"effectsize"</span>)  <span class="co"># 效果量計算</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"lavaan"</span>)      <span class="co"># SEM（第14週）</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"gee"</span>)         <span class="co"># GEE（第12週）</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 載入套件（每次開啟 RStudio 都要執行一次）</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+重要
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>install.packages()</code> 是下載安裝，只做一次。 <code>library()</code> 是載入啟用，每次開新的 R session 都要做。 這是初學者最常搞混的地方。</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="資料類型" class="level2">
+<h2 class="anchored" data-anchor-id="資料類型">5. 資料類型</h2>
+<p>R 有幾種基本資料類型，對應到統計上的變項類型：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 數值（連續變項）</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>age <span class="ot">&lt;-</span> <span class="dv">34</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>response_time <span class="ot">&lt;-</span> <span class="fl">8.5</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 字串（類別變項的原始輸入）</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>gender <span class="ot">&lt;-</span> <span class="st">"男"</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>level  <span class="ot">&lt;-</span> <span class="st">"EMT-P"</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 因子 factor（類別變項的正確格式）</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>level_f <span class="ot">&lt;-</span> <span class="fu">factor</span>(level, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"EMT-1"</span>, <span class="st">"EMT-2"</span>, <span class="st">"EMT-P"</span>))</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 邏輯值</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>is_senior <span class="ot">&lt;-</span> age <span class="sc">&gt;</span> <span class="dv">40</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(is_senior)   <span class="co"># FALSE</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 確認資料類型</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(age)           <span class="co"># "numeric"</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(gender)        <span class="co"># "character"</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(level_f)       <span class="co"># "factor"</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+提示
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>統計分析前一定要確認：</strong> 類別變項（性別、職級、地區）在 R 裡必須是 <code>factor</code>， 不然很多統計函數會報錯或給出錯誤結果。</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="匯入主資料集" class="level2">
+<h2 class="anchored" data-anchor-id="匯入主資料集">6. 匯入主資料集</h2>
+<p>本課程全學期使用同一份資料：<code>ems_main.csv</code>。</p>
+<section id="步驟" class="level3">
+<h3 class="anchored" data-anchor-id="步驟">步驟</h3>
+<ol type="1">
+<li>將 <code>ems_main.csv</code> 放入你的專案資料夾（建議放在 <code>data/</code> 子資料夾）</li>
+<li>執行以下程式碼：</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 匯入 CSV 資料</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ems <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/ems_main.csv"</span>, </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">fileEncoding =</span> <span class="st">"UTF-8"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 確認資料維度</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(ems)          <span class="co"># 顯示「列數 欄數」，應為 200 27</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 看前六列</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ems)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 看資料結構</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(ems)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 基本摘要</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ems)</span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="將類別變項轉為-factor" class="level3">
+<h3 class="anchored" data-anchor-id="將類別變項轉為-factor">將類別變項轉為 factor</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 匯入後立刻做這個步驟，往後分析才正確</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ems<span class="sc">$</span>gender   <span class="ot">&lt;-</span> <span class="fu">factor</span>(ems<span class="sc">$</span>gender, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"男"</span>,<span class="st">"女"</span>))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>ems<span class="sc">$</span>level    <span class="ot">&lt;-</span> <span class="fu">factor</span>(ems<span class="sc">$</span>level,  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"EMT-1"</span>,<span class="st">"EMT-2"</span>,<span class="st">"EMT-P"</span>))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>ems<span class="sc">$</span>district <span class="ot">&lt;-</span> <span class="fu">factor</span>(ems<span class="sc">$</span>district, </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"北部"</span>,<span class="st">"中部"</span>,<span class="st">"南部"</span>,<span class="st">"東部"</span>))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>ems<span class="sc">$</span>shift    <span class="ot">&lt;-</span> <span class="fu">factor</span>(ems<span class="sc">$</span>shift, </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"日班為主"</span>,<span class="st">"夜班為主"</span>,<span class="st">"輪班"</span>))</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 確認轉換結果</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(ems)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(ems<span class="sc">$</span>level)    <span class="co"># 應顯示 "EMT-1" "EMT-2" "EMT-P"</span></span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="資料集欄位說明" class="level2">
+<h2 class="anchored" data-anchor-id="資料集欄位說明">7. 資料集欄位說明</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 28%">
+<col style="width: 7%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>欄位名稱</th>
+<th>說明</th>
+<th>類型</th>
+<th>單位/備註</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>id</code></td>
+<td>人員編號</td>
+<td>文字</td>
+<td>EMS001–EMS200</td>
+</tr>
+<tr class="even">
+<td><code>gender</code></td>
+<td>性別</td>
+<td>類別</td>
+<td>男／女</td>
+</tr>
+<tr class="odd">
+<td><code>age</code></td>
+<td>年齡</td>
+<td>連續</td>
+<td>歲</td>
+</tr>
+<tr class="even">
+<td><code>level</code></td>
+<td>EMT 職級</td>
+<td>類別</td>
+<td>EMT-1／EMT-2／EMT-P</td>
+</tr>
+<tr class="odd">
+<td><code>years</code></td>
+<td>年資</td>
+<td>連續</td>
+<td>年</td>
+</tr>
+<tr class="even">
+<td><code>district</code></td>
+<td>服務地區</td>
+<td>類別</td>
+<td>北部／中部／南部／東部</td>
+</tr>
+<tr class="odd">
+<td><code>shift</code></td>
+<td>班別</td>
+<td>類別</td>
+<td>日班為主／夜班為主／輪班</td>
+</tr>
+<tr class="even">
+<td><code>monthly_cases</code></td>
+<td>每月出勤次數</td>
+<td>連續</td>
+<td>次</td>
+</tr>
+<tr class="odd">
+<td><code>night_shifts</code></td>
+<td>每月夜班次數</td>
+<td>連續</td>
+<td>次</td>
+</tr>
+<tr class="even">
+<td><code>overtime_hours</code></td>
+<td>每月超時時數</td>
+<td>連續</td>
+<td>小時</td>
+</tr>
+<tr class="odd">
+<td><code>bmi</code></td>
+<td>身體質量指數</td>
+<td>連續</td>
+<td>kg/m²</td>
+</tr>
+<tr class="even">
+<td><code>sbp</code></td>
+<td>收縮壓</td>
+<td>連續</td>
+<td>mmHg</td>
+</tr>
+<tr class="odd">
+<td><code>dbp</code></td>
+<td>舒張壓</td>
+<td>連續</td>
+<td>mmHg</td>
+</tr>
+<tr class="even">
+<td><code>sleep_hrs</code></td>
+<td>每日平均睡眠</td>
+<td>連續</td>
+<td>小時</td>
+</tr>
+<tr class="odd">
+<td><code>sleep_qual</code></td>
+<td>睡眠品質</td>
+<td>連續</td>
+<td>PSQI 0–21，越高越差</td>
+</tr>
+<tr class="even">
+<td><code>stress_vas</code></td>
+<td>主觀壓力</td>
+<td>連續</td>
+<td>VAS 0–10</td>
+</tr>
+<tr class="odd">
+<td><code>mbi_ee</code></td>
+<td>MBI 情感耗竭</td>
+<td>連續</td>
+<td>0–6</td>
+</tr>
+<tr class="even">
+<td><code>mbi_dp</code></td>
+<td>MBI 人格解體</td>
+<td>連續</td>
+<td>0–6</td>
+</tr>
+<tr class="odd">
+<td><code>mbi_pa</code></td>
+<td>MBI 個人成就感</td>
+<td>連續</td>
+<td>0–6</td>
+</tr>
+<tr class="even">
+<td><code>job_sat</code></td>
+<td>工作滿意度</td>
+<td>連續</td>
+<td>1–5</td>
+</tr>
+<tr class="odd">
+<td><code>mist_pre</code></td>
+<td>訓練前 MIST 評分</td>
+<td>連續</td>
+<td>0–100</td>
+</tr>
+<tr class="even">
+<td><code>mist_post</code></td>
+<td>訓練後 MIST 評分</td>
+<td>連續</td>
+<td>0–100</td>
+</tr>
+<tr class="odd">
+<td><code>supervisor_score</code></td>
+<td>主管督導評分</td>
+<td>連續</td>
+<td>0–100</td>
+</tr>
+<tr class="even">
+<td><code>response_time</code></td>
+<td>到院反應時間</td>
+<td>連續</td>
+<td>分鐘</td>
+</tr>
+<tr class="odd">
+<td><code>case_severity</code></td>
+<td>案件嚴重度</td>
+<td>類別</td>
+<td>1輕傷/2中度/3重傷/4 OHCA</td>
+</tr>
+<tr class="even">
+<td><code>ohca_survival</code></td>
+<td>OHCA 存活</td>
+<td>二元</td>
+<td>0死亡/1存活（僅 OHCA 案件）</td>
+</tr>
+<tr class="odd">
+<td><code>occ_injury</code></td>
+<td>職業傷害（過去一年）</td>
+<td>二元</td>
+<td>0無/1有</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="本週小作業" class="level2">
+<h2 class="anchored" data-anchor-id="本週小作業">本週小作業</h2>
+<p>使用 <code>ems_main.csv</code>，完成以下任務並貼上語法與輸出：</p>
+<p><strong>Q1</strong> 執行 <code>str(ems)</code> 並說明：哪些欄位在轉換 factor 之前是什麼類型？</p>
+<p><strong>Q2</strong> 執行 <code>summary(ems)</code> 後，找出以下數字： - <code>response_time</code> 的最小值、最大值、中位數 - <code>mbi_ee</code> 的平均值</p>
+<p><strong>Q3</strong> 用 <code>table()</code> 函數分別統計 <code>level</code> 和 <code>district</code> 的人數分布：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ems<span class="sc">$</span>level)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ems<span class="sc">$</span>district)</span></code></pre></div><button title="複製到剪貼簿" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Q4 思考題：</strong> <code>ohca_survival</code> 這個欄位有很多空值（NA），為什麼？在什麼情況下這個欄位才有意義？</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "已複製");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "已複製");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
